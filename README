@@ -1,5 +1,7 @@
 Some comments/design decisions:
 
+-This server uses Spring, Maven, and Java. No HTML here.
+
 -I run the program in Eclipse. This starts the server. Then I type something
 like this in terminal:
 curl -X POST -H "Content-Type: application/json" -d '{"text:"
