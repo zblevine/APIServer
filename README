@@ -1,0 +1,21 @@
+Some comments/design decisions:
+
+-For avg_len, I found a regex that covers all non-alphanumeric characters
+so to get an array of words I just split on that. 
+
+-I couldn't get the server to work if I used single or double quotes in
+my JSON input at all. I think JSON treats each of those special cases
+in a funny way and causes it not to interpret the input as one string
+if either is used.
+
+-I thought it would be easiest if for each endpoint I used a different
+data model.
+
+-When returning a most common word, I treated capitalization as irrelevant;
+thus, Polish and polish are the same word, even though in this case they
+have different meanings. I was willing to sacrifice this rare case in exchange
+for allowing for correct capitalization in sentences.
+
+-If a text input was "hey hey hi hi hi", the median word frequency would
+be 2.5. I treated this as having no words with median frequency instead of
+returning both words.
