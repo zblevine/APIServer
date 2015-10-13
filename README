@@ -1,5 +1,16 @@
 Some comments/design decisions:
 
+-I run the program in Eclipse. This starts the server. Then I type something
+like this in terminal:
+curl -X POST -H "Content-Type: application/json" -d '{"text:"
+"This is my text input. Yep! Here is another sentence"}'
+http://localhost:8080/your/endpoint_here
+
+-If you want to modify the code and run the server again, be sure to
+stop the Java program first! I ran into problems connecting when I tried
+to run the server while it was still running. Stopping the Java program
+will close the server.
+
 -For avg_len, I found a regex that covers all non-alphanumeric characters
 so to get an array of words I just split on that. 
 
@@ -9,7 +20,9 @@ in a funny way and causes it not to interpret the input as one string
 if either is used.
 
 -I thought it would be easiest if for each endpoint I used a different
-data model.
+data model, except the average word length and sentence length; I used the
+same AvgLen model for that since each endpoint displays two variables,
+input text and average length.
 
 -When returning a most common word, I treated capitalization as irrelevant;
 thus, Polish and polish are the same word, even though in this case they
@@ -17,5 +30,24 @@ have different meanings. I was willing to sacrifice this rare case in exchange
 for allowing for correct capitalization in sentences.
 
 -If a text input was "hey hey hi hi hi", the median word frequency would
-be 2.5. I treated this as having no words with median frequency instead of
+be 2.5. I treated this input as having no words with median frequency instead of
 returning both words.
+
+-When doing the sentences endpoint, I chose to split sentences on
+a period followed by a space, a question mark followed by a space, or
+an exclamation point followed by a space. This has one unfortunate consequence;
+expressions such as "Mr. Jones" are treated as two sentences. Factorials are
+also a problem. I think this method deals with most other cases well.
+
+-I never got to the phone number expression. Here are the forms I
+would count:
+
+847-123-5555
+(847) 123-5555
+(847) 123 5555
+(847)123-5555
+(847)1235555
+(847)123 5555
+847.123.5555
+847 123 5555
+8471235555
